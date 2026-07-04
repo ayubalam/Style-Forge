@@ -1,8 +1,23 @@
+import useWishlist from "../../hooks/useWishlist";
+
+import WishlistList from "../../components/wishlist/WishlistList";
+import EmptyWishlist from "../../components/wishlist/EmptyWishlist";
+
 function Wishlist() {
+  const { wishlistItems } = useWishlist();
+
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <h1 className="text-4xl font-bold">Wishlist Page</h1>
-    </div>
+    <section className="max-w-7xl mx-auto px-6 py-12">
+      <h1 className="text-5xl font-bold mb-10">
+        My Wishlist
+      </h1>
+
+      {wishlistItems.length === 0 ? (
+        <EmptyWishlist />
+      ) : (
+        <WishlistList wishlistItems={wishlistItems} />
+      )}
+    </section>
   );
 }
 

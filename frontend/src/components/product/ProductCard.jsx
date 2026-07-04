@@ -7,17 +7,31 @@ import {
 } from "react-icons/fi";
 
 import useCart from "../../hooks/useCart";
+import useWishlist from "../../hooks/useWishlist";
 
 function ProductCard({ product }) {
   const { addToCart } = useCart();
 
+  const {
+    addToWishlist,
+    removeFromWishlist,
+    isInWishlist,
+  } = useWishlist();
+
   const handleAddToCart = (e) => {
-  e.preventDefault();
+    e.preventDefault();
+    addToCart(product);
+  };
 
-  alert("Button Clicked");
+  const handleWishlist = (e) => {
+    e.preventDefault();
 
-  addToCart(product);
-};
+    if (isInWishlist(product.id)) {
+      removeFromWishlist(product.id);
+    } else {
+      addToWishlist(product);
+    }
+  };
 
   return (
     <div className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden">
@@ -30,9 +44,14 @@ function ProductCard({ product }) {
             className="h-72 w-full object-cover group-hover:scale-105 transition duration-500"
           />
 
+          {/* Wishlist */}
           <button
-            onClick={(e) => e.preventDefault()}
-            className="absolute top-4 right-4 bg-white p-2 rounded-full shadow hover:bg-pink-500 hover:text-white transition"
+            onClick={handleWishlist}
+            className={`absolute top-4 right-4 p-2 rounded-full shadow transition ${
+              isInWishlist(product.id)
+                ? "bg-pink-500 text-white"
+                : "bg-white hover:bg-pink-500 hover:text-white"
+            }`}
           >
             <FiHeart />
           </button>
